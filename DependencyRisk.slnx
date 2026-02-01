@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DependencyRisk.Api/DependencyRisk.Api.csproj" />
+    <Project Path="src/DependencyRisk.Core/DependencyRisk.Core.csproj" />
+    <Project Path="src/DependencyRisk.Infrastructure/DependencyRisk.Infrastructure.csproj" />
+  </Folder>
+</Solution>

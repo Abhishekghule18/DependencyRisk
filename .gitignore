@@ -1,0 +1,73 @@
+# .NET / C#
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.user
+*.userprefs
+*.suo
+.vs/
+.vscode/
+properties/launchSettings.json
+
+# NuGet
+*.nupkg
+*.nuspec
+.nuget/
+
+# Entity Framework
+migrations/
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Dependencies
+packages/
+node_modules/
+package-lock.json
+yarn.lock
+
+# Angular / TypeScript
+dist/
+.angular/
+*.js.map
+*.js.bak
+
+# Environment files
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# Build output
+out/
+dist/
+build/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
