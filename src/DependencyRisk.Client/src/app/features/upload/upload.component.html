@@ -1,0 +1,49 @@
+<div class="upload-page">
+  <div class="upload-header">
+    <h1>DependencyRisk</h1>
+    <p class="subtitle">Supply Chain Risk Scorer — Know what's likely to break before it breaks.</p>
+    <a routerLink="/dashboard" class="btn-secondary">View Dashboard</a>
+  </div>
+
+  <div
+    class="drop-zone"
+    [class.dragging]="isDragging"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave()"
+    (drop)="onDrop($event)"
+  >
+    @if (isScanning) {
+      <div class="scanning-state">
+        <div class="spinner"></div>
+        <p>Analyzing dependencies...</p>
+        <small>Fetching GitHub metrics, calculating risk scores, generating AI summaries</small>
+      </div>
+    } @else {
+      <div class="drop-content">
+        <div class="upload-icon">📦</div>
+        <h2>Drop your dependency file here</h2>
+        <p>Supports <code>.csproj</code>, <code>package.json</code>, <code>requirements.txt</code></p>
+        <label class="btn-primary">
+          Browse File
+          <input type="file" [accept]="acceptedTypes" (change)="onFileSelected($event)" hidden />
+        </label>
+        <div class="divider">or</div>
+        <button class="btn-secondary" (click)="useSample()">Try with sample .csproj</button>
+      </div>
+    }
+  </div>
+
+  @if (error) {
+    <div class="error-banner">{{ error }}</div>
+  }
+
+  <div class="how-it-works">
+    <h3>How it works</h3>
+    <div class="steps">
+      <div class="step"><span class="step-num">1</span><p>Upload your dependency file</p></div>
+      <div class="step"><span class="step-num">2</span><p>We fetch real GitHub metrics for each package</p></div>
+      <div class="step"><span class="step-num">3</span><p>Our algorithm scores maintainer health, activity, issues, releases, community & license</p></div>
+      <div class="step"><span class="step-num">4</span><p>AI generates plain-English risk summaries for each dependency</p></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+.history-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  h1 { margin: 0.25rem 0 1.5rem; font-size: 1.8rem; color: #1a1a2e; }
+}
+
+.breadcrumb {
+  font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.5rem;
+  a { color: #6366f1; text-decoration: none; &:hover { text-decoration: underline; } }
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  h3 { margin: 0 0 1rem; font-size: 1.1rem; color: #1a1a2e; }
+}
+
+.trend-card svg { display: block; }
+.trend-labels {
+  display: flex; justify-content: space-between;
+  font-size: 0.75rem; color: #94a3b8; margin-top: 4px;
+}
+
+.scan-table {
+  width: 100%; border-collapse: collapse; font-size: 0.9rem;
+  th { text-align: left; padding: 0.5rem 0.75rem; color: #64748b; font-weight: 600; border-bottom: 2px solid #f1f5f9; }
+  td { padding: 0.7rem 0.75rem; border-bottom: 1px solid #f1f5f9; }
+  tr:last-child td { border-bottom: none; }
+}
+
+.score-chip {
+  color: white; padding: 2px 10px; border-radius: 20px;
+  font-weight: 600; font-size: 0.85rem;
+}
+
+.danger-num { color: #ef4444; font-weight: 600; }
+.warn-num   { color: #f59e0b; font-weight: 600; }
+.safe-num   { color: #22c55e; font-weight: 600; }
+.muted      { color: #94a3b8; }
+
+.link {
+  color: #6366f1; text-decoration: none; font-size: 0.85rem;
+  &:hover { text-decoration: underline; }
+}
+
+.loading {
+  text-align: center; padding: 3rem;
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid #e2e8f0; border-top-color: #6366f1;
+    border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;
+  }
+}
+@keyframes spin { to { transform: rotate(360deg); } }

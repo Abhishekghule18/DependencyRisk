@@ -1,0 +1,95 @@
+<div class="scan-page">
+  @if (loading) {
+    <div class="loading"><div class="spinner"></div><p>Loading scan results...</p></div>
+  } @else if (error) {
+    <div class="error-banner">{{ error }}</div>
+  } @else if (scan) {
+    <div class="scan-header">
+      <div class="breadcrumb">
+        <a routerLink="/dashboard">Dashboard</a> /
+        <span>{{ scan.projectName }}</span>
+      </div>
+      <h1>{{ scan.projectName }}</h1>
+      <p class="scanned-at">Scanned {{ scan.scannedAt | date:'MMM d, y h:mm a' }}</p>
+
+      <div class="scan-summary-cards">
+        <div class="summary-card">
+          <div class="big-score" [style.color]="tileColor(scan.overallScore >= 80 ? 'Low' : scan.overallScore >= 60 ? 'Medium' : scan.overallScore >= 40 ? 'High' : 'Critical')">
+            {{ scan.overallScore | number:'1.0-1' }}
+          </div>
+          <div class="card-label">Overall Score</div>
+        </div>
+        <div class="summary-card"><div class="big-num">{{ scan.totalDeps }}</div><div class="card-label">Total Dependencies</div></div>
+        <div class="summary-card critical"><div class="big-num">{{ scan.highRiskCount }}</div><div class="card-label">High/Critical</div></div>
+        <div class="summary-card warn"><div class="big-num">{{ scan.mediumRiskCount }}</div><div class="card-label">Medium Risk</div></div>
+        <div class="summary-card safe"><div class="big-num">{{ scan.lowRiskCount }}</div><div class="card-label">Low Risk</div></div>
+      </div>
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-bar">
+      <span class="filter-label">Filter:</span>
+      @for (level of ['All','Critical','High','Medium','Low']; track level) {
+        <button class="filter-btn" [class.active]="filter === level" (click)="setFilter(level)">{{ level }}</button>
+      }
+    </div>
+
+    <!-- Heatmap -->
+    <div class="heatmap">
+      @for (dep of filtered; track dep.dependencyId) {
+        <div
+          class="tile"
+          [style.background]="tileColor(dep.riskLevel)"
+          [title]="dep.packageName + ' — ' + dep.riskLevel + ' (' + dep.overallScore + ')'"
+          (click)="selected = dep"
+        >
+          <span class="tile-name">{{ dep.packageName }}</span>
+          <span class="tile-score">{{ dep.overallScore | number:'1.0-0' }}</span>
+        </div>
+      }
+    </div>
+
+    <!-- Detail Panel -->
+    @if (selected) {
+      <div class="detail-overlay" (click)="selected = null">
+        <div class="detail-panel" (click)="$event.stopPropagation()">
+          <button class="close-btn" (click)="selected = null">✕</button>
+          <div class="detail-header">
+            <h2>{{ selected.packageName }}</h2>
+            <span class="risk-badge" [style.background]="tileColor(selected.riskLevel)">{{ selected.riskLevel }}</span>
+            @if (selected.version) {
+              <span class="version">v{{ selected.version }}</span>
+            }
+          </div>
+
+          @if (selected.gitHubRepoUrl) {
+            <a [href]="selected.gitHubRepoUrl" target="_blank" class="gh-link">View on GitHub ↗</a>
+          }
+
+          @if (selected.aiSummary) {
+            <div class="ai-box">
+              <span class="ai-label">AI Risk Summary</span>
+              <p>{{ selected.aiSummary }}</p>
+            </div>
+          }
+
+          <div class="metrics-grid">
+            @for (m of radarData(selected); track m.label) {
+              <div class="metric-row">
+                <span class="metric-label">{{ m.label }}</span>
+                <div class="metric-bar-bg">
+                  <div class="metric-bar" [style.width.%]="m.value" [style.background]="scoreBar(m.value)"></div>
+                </div>
+                <span class="metric-val">{{ m.value }}</span>
+              </div>
+            }
+          </div>
+
+          <div class="overall-score">
+            Overall: <strong [style.color]="tileColor(selected.riskLevel)">{{ selected.overallScore | number:'1.0-1' }}/100</strong>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>

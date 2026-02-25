@@ -1,0 +1,120 @@
+<div class="dashboard">
+  <div class="top-bar">
+    <h1>DependencyRisk Dashboard</h1>
+    <a routerLink="/" class="btn-primary">+ Upload New Project</a>
+  </div>
+
+  @if (loading) {
+    <div class="loading"><div class="spinner"></div><p>Loading...</p></div>
+  } @else if (error) {
+    <div class="error-banner">{{ error }}</div>
+  } @else {
+
+    <!-- Summary Cards -->
+    @if (summary) {
+      <div class="summary-cards">
+        <div class="card stat">
+          <span class="stat-value">{{ summary.totalProjects }}</span>
+          <span class="stat-label">Projects</span>
+        </div>
+        <div class="card stat">
+          <span class="stat-value">{{ summary.totalDependencies }}</span>
+          <span class="stat-label">Dependencies</span>
+        </div>
+        <div class="card stat critical">
+          <span class="stat-value">{{ summary.criticalCount + summary.highCount }}</span>
+          <span class="stat-label">High/Critical Risk</span>
+        </div>
+        <div class="card stat safe">
+          <span class="stat-value">{{ summary.lowCount }}</span>
+          <span class="stat-label">Low Risk</span>
+        </div>
+      </div>
+    }
+
+    <!-- Projects Table -->
+    <div class="card section">
+      <h2>Projects</h2>
+      @if (projects.length === 0) {
+        <div class="empty-state">No projects yet. <a routerLink="/">Upload a dependency file</a> to get started.</div>
+      } @else {
+        <table class="project-table">
+          <thead>
+            <tr>
+              <th>Project</th>
+              <th>Type</th>
+              <th>Deps</th>
+              <th>Score</th>
+              <th>High Risk</th>
+              <th>Last Scanned</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of projects; track p.projectId) {
+              <tr>
+                <td><strong>{{ p.projectName }}</strong></td>
+                <td><span class="badge">{{ p.fileType }}</span></td>
+                <td>{{ p.totalDeps }}</td>
+                <td>
+                  @if (p.latestScore != null) {
+                    <span class="score-pill" [style.background]="scoreGradient(p.latestScore)">
+                      {{ p.latestScore | number:'1.0-0' }}
+                    </span>
+                  } @else {
+                    <span class="muted">—</span>
+                  }
+                </td>
+                <td>
+                  @if (p.highRiskCount > 0) {
+                    <span class="risk-badge high">{{ p.highRiskCount }}</span>
+                  } @else {
+                    <span class="muted">0</span>
+                  }
+                </td>
+                <td class="muted">
+                  {{ p.lastScannedAt ? (p.lastScannedAt | date:'MMM d, y') : 'Never' }}
+                </td>
+                <td class="actions">
+                  <button class="btn-sm" (click)="triggerScan(p.projectId)"
+                          [disabled]="scanningProjectId === p.projectId">
+                    {{ scanningProjectId === p.projectId ? '...' : 'Scan' }}
+                  </button>
+                  @if (p.lastScannedAt) {
+                    <a class="btn-sm secondary" [routerLink]="['/history', p.projectId]">History</a>
+                  }
+                  <button class="btn-sm danger" (click)="deleteProject(p.projectId)">Delete</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+
+    <!-- Worst Dependencies -->
+    @if (worstDeps.length > 0) {
+      <div class="card section">
+        <h2>Top Risky Dependencies</h2>
+        <div class="worst-list">
+          @for (dep of worstDeps; track dep.packageName) {
+            <div class="worst-item">
+              <div class="worst-header">
+                <span class="pkg-name">{{ dep.packageName }}</span>
+                <span class="risk-badge" [style.background]="riskColor(dep.riskLevel)">{{ dep.riskLevel }}</span>
+                <span class="score">{{ dep.overallScore | number:'1.0-1' }}/100</span>
+                <span class="muted small">{{ dep.projectName }}</span>
+                @if (dep.gitHubRepoUrl) {
+                  <a [href]="dep.gitHubRepoUrl" target="_blank" class="gh-link">GitHub ↗</a>
+                }
+              </div>
+              @if (dep.aiSummary) {
+                <p class="ai-summary">{{ dep.aiSummary }}</p>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  }
+</div>
