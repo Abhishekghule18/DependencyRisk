@@ -40,9 +40,6 @@ dist/
 *.js.bak
 
 # Environment files
-appsettings.*.json
-!appsettings.template.json
-!appsettings.*.template.json
 .env
 .env.local
 .env.*.local
