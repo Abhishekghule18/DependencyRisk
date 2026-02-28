@@ -4,26 +4,14 @@
 
 ## Quick Start
 
-### 0. Initial Setup
+### 0. Optional: Configure Settings
 
-Before running the application, configure your environment settings:
+The project includes default configuration files that work out-of-the-box for local development. To customize:
 
-**Create local configuration files from templates:**
-
-```bash
-# Copy template to active config (first time only)
-cp src/DependencyRisk.Api/appsettings.template.json src/DependencyRisk.Api/appsettings.json
-cp src/DependencyRisk.Api/appsettings.Development.template.json src/DependencyRisk.Api/appsettings.Development.json
-```
-
-**Update credentials if needed:**
-
-Edit `src/DependencyRisk.Api/appsettings.json` to configure:
-- **GitHub Token** (optional): Replace `REPLACE_WITH_GITHUB_PAT` with your token to raise API rate limits
-- **Database Connection**: Adjust `ConnectionStrings.Default` if using a different SQL Server instance
+Edit `src/DependencyRisk.Api/appsettings.json`:
+- **GitHub Token** (optional): Add a personal access token to raise API rate limits from 60 to 5,000 requests/hour
+- **Database Connection**: Adjust if using a different SQL Server instance
 - **Ollama Settings**: Modify if running Ollama on a different host/port
-
-> ⚠️ Configuration files (`appsettings*.json`) are git-ignored. Never commit real credentials.
 
 ### 1. Start the API
 
