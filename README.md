@@ -32,11 +32,30 @@ ng serve
 
 ### 3. (Optional) AI Summaries via Ollama
 
+The project uses **Ollama** — a local LLM runner — to generate plain-English risk summaries for each dependency. It runs entirely on your machine with no API keys or cloud calls.
+
+**How it works:**
+After scoring each dependency, the scan pipeline sends the metrics (scores, last commit date, contributor count, license, etc.) to a locally-running LLM and gets back a 2–3 sentence explanation of the risk and recommended action. The summary is saved to the database and shown in the dependency detail panel.
+
+**To enable:**
 ```bash
-# Install from https://ollama.com, then:
+# 1. Install Ollama from https://ollama.com, then:
 ollama pull llama3
-# Ollama runs on http://localhost:11434 by default
+
+# Ollama auto-starts on http://localhost:11434
 ```
+
+If Ollama is not running, the app falls back gracefully:
+> "Risk level: High. AI summary unavailable — ensure Ollama is running locally."
+
+**Swap the model** by editing `src/DependencyRisk.Api/appsettings.json`:
+```json
+"Ollama": {
+  "BaseUrl": "http://localhost:11434",
+  "Model": "llama3"
+}
+```
+Other supported models: `mistral`, `gemma2`, `phi3`, or any model available via `ollama list`.
 
 ---
 

@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "DependencyRisk API",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "src/DependencyRisk.Api/DependencyRisk.Api.csproj"],
+      "port": 5000
+    },
+    {
+      "name": "DependencyRisk Angular",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start", "--prefix", "src/DependencyRisk.Client"],
+      "port": 4200
+    }
+  ]
+}

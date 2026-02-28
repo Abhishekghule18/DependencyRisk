@@ -1,0 +1,35 @@
+# Python dependencies for a Django API project
+
+# Core framework
+Django==4.2.9
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
+
+# Database
+psycopg2-binary==2.9.9
+SQLAlchemy==2.0.25
+
+# Task queue
+celery==5.3.6
+redis==5.0.1
+
+# Auth & security
+PyJWT==2.8.0
+cryptography==42.0.2
+bcrypt==4.1.2
+
+# HTTP & API
+requests==2.31.0
+httpx==0.26.0
+pydantic==2.5.3
+
+# Utils
+python-dotenv==1.0.0
+Pillow==10.2.0
+pandas==2.2.0
+numpy==1.26.3
+
+# Testing
+pytest==7.4.4
+pytest-django==4.7.0
+factory-boy==3.3.0
