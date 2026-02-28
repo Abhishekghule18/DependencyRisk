@@ -4,6 +4,27 @@
 
 ## Quick Start
 
+### 0. Initial Setup
+
+Before running the application, configure your environment settings:
+
+**Create local configuration files from templates:**
+
+```bash
+# Copy template to active config (first time only)
+cp src/DependencyRisk.Api/appsettings.template.json src/DependencyRisk.Api/appsettings.json
+cp src/DependencyRisk.Api/appsettings.Development.template.json src/DependencyRisk.Api/appsettings.Development.json
+```
+
+**Update credentials if needed:**
+
+Edit `src/DependencyRisk.Api/appsettings.json` to configure:
+- **GitHub Token** (optional): Replace `REPLACE_WITH_GITHUB_PAT` with your token to raise API rate limits
+- **Database Connection**: Adjust `ConnectionStrings.Default` if using a different SQL Server instance
+- **Ollama Settings**: Modify if running Ollama on a different host/port
+
+> ⚠️ Configuration files (`appsettings*.json`) are git-ignored. Never commit real credentials.
+
 ### 1. Start the API
 
 ```bash
@@ -28,14 +49,6 @@ ng serve
 ollama pull llama3
 # Ollama runs on http://localhost:11434 by default
 ```
-
-### 4. (Optional) Add a GitHub Token
-
-Edit `src/DependencyRisk.Api/appsettings.json`:
-```json
-"GitHub": { "Token": "ghp_your_token_here" }
-```
-Raises rate limit from 60 to 5000 requests/hour.
 
 ---
 

@@ -41,8 +41,8 @@ dist/
 
 # Environment files
 appsettings.*.json
-!appsettings.json
-!appsettings.Development.json
+!appsettings.template.json
+!appsettings.*.template.json
 .env
 .env.local
 .env.*.local
